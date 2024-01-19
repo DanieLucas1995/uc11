@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 
 
@@ -109,6 +110,21 @@ public class ProdutosDAO {
 
         return listagem;
     }
+    
+    public void venderProduto(int id){
+      try {
+            String sql = "UPDATE produtos SET status=? WHERE Id=?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1, "vendido");
+                preparedStatement.setInt(2, id);
+                preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao atualizar produto: " + ex.getMessage());
+        }
+    
+}
 
     public void fecharConexao() {
         // Adicione um método para fechar a conexão quando necessário
@@ -122,3 +138,4 @@ public class ProdutosDAO {
         }
     }
 }
+
